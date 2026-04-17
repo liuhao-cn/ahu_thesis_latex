@@ -66,17 +66,7 @@ make.bat
 3. XeLaTeX 第二次编译
 4. XeLaTeX 第三次编译
 
-成功后会生成 `main.pdf`。
-
-## 清理中间文件
-
-Linux/macOS:
-
-```bash
-./make.sh clean
-```
-
-Windows 下的 `make.bat` 会在编译完成后自动清理常见中间文件。
+成功后会生成 `main.pdf`。 脚本会自动清理中间文件
 
 ## 说明
 
