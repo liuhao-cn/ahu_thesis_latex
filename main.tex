@@ -1,0 +1,67 @@
+\documentclass{ahuthesis}
+
+% 封面元信息
+\thesistitlecn1{安徽大学理工类本科毕业论文模板}
+\thesistitlecn2{最小示例}
+\thesistitleen{A Minimal Thesis Template Example for Anhui University}
+
+\studentname{张三}
+\studentid{2022000000}
+\department{物理学院}
+\major{应用物理}
+\enrolldate{2022 年 9 月}
+\supervisor{李四}
+\supervisortitle{教授 / 博士}
+\supervisorunit{安徽大学物理学院}
+\completiondate{2026 年 6 月}
+\keywordsCN{论文模板；最小示例；排版}
+\keywordsEN{thesis template; minimal example; typesetting}
+
+\begin{document}
+
+% 前置部分：封面、摘要、目录
+\frontmatter
+\makecover
+
+% 中文摘要
+\begin{cnabstract}
+本文档是安徽大学理工类本科毕业论文模板的最小示例，保留了封面、摘要、目录、正文、参考文献、附录与致谢等基本结构。实际写作时，通常只需修改本文件中的元信息与正文内容，再按需补充更多章节。
+\end{cnabstract}
+
+% 英文摘要
+\begin{enabstract}
+This document is a minimal example of the Anhui University science thesis template. It keeps the basic structure of a thesis, including the cover, abstracts, table of contents, main text, bibliography, appendix, and acknowledgements.
+\end{enabstract}
+
+% 生成目录
+\tableofcontents
+
+% 正文示例
+\mainmatter
+\section{引言}
+本文档仅保留最基本的示例内容，用于说明论文模板的组织方式。使用时，可以先替换题目、作者信息和正文，再根据需要继续扩展章节、小节与图表等内容。
+
+\subsection{技术路线：使用建议}
+为避免与真实出版物混淆，下面的引文与文后参考文献均采用纯虚构示例，只用于展示不同 BibTeX 条目在模板中的排版效果。条目中的“作者甲”“出版社甲”“地点甲”“Note Alpha”等均是字段占位符，用来明确字段归属。
+
+图书类与版次信息可参见 \cite{demoBookCN,demoBookEN}；期刊类的卷(期)与页码格式可参见 \cite{demoArticleCN,demoArticleEN}。
+会议论文、技术报告与学位论文的展示效果可参见 \cite{demoProceedingCN,demoReportEN,demoThesisCN}。实际写作时，只需按相同字段结构替换为自己的真实文献信息即可。
+
+\section{结论}
+通过保持示例内容精简，模板可以更清楚地展示论文的基本结构，也便于作者直接替换为自己的正式内容。
+
+% 文后部分：参考文献、附录、致谢
+\backmatter
+\bibliographystyle{ahu_citation}
+\bibliography{references}
+
+% 附录
+\ahuappendix{A}{附录示例}
+此处可放置补充材料，例如原始数据、推导过程或额外说明。
+
+% 致谢
+\begin{acknowledgements}
+感谢导师、同学与家人在论文写作过程中提供的帮助与支持。
+\end{acknowledgements}
+
+\end{document}
