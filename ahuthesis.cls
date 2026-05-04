@@ -26,7 +26,6 @@
 \RequirePackage{indentfirst}
 \RequirePackage{fancyhdr}
 \RequirePackage{hyperref}
-\RequirePackage[numbers,sort&compress]{natbib}
 \RequirePackage{ahu_citation}
 
 \makeatletter

@@ -272,7 +272,7 @@ FUNCTION {entry.mark}
 FUNCTION {format.edition.ahu}
 { edition empty$
     { "" }
-    { edition "l" change.case$ " ed." * }
+    { edition }
   if$
 }
 
@@ -584,11 +584,11 @@ FUNCTION {format.crossref.editor}
 { editor #1 "{vv~}{ll}" format.name$
   editor num.names$ duplicate$
   #2 >
-    { pop$ " et~al." * }
+    { pop$ " 等" * }
     { #2 <
         'skip$
         { editor #2 "{ff }{vv }{ll}{ jj}" format.name$ "others" =
-            { " et~al." * }
+            { " 等" * }
             { " and " * editor #2 "{vv~}{ll}" format.name$ * }
           if$
         }
