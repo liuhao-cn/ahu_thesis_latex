@@ -26,6 +26,8 @@
 \RequirePackage{indentfirst}
 \RequirePackage{fancyhdr}
 \RequirePackage{hyperref}
+\RequirePackage{etoolbox}
+\RequirePackage{xcolor}
 \RequirePackage{ahu_citation}
 
 \makeatletter
@@ -53,6 +55,10 @@
 \newcommand{\ahu@coverlabelleading}{21.6bp}
 \newcommand{\ahu@coverhintfontsize}{22bp}
 \newcommand{\ahu@coverhintleading}{28bp}
+\newcommand{\ahu@coverhintnotefontsize}{12bp}
+\newcommand{\ahu@coverhintnoteleading}{18bp}
+\newcommand{\ahu@coverbottomfontsize}{16bp}
+\newcommand{\ahu@coverbottomleading}{22bp}
 \newcommand{\ahu@cnabstracttitlefontsize}{20bp}
 \newcommand{\ahu@cnabstracttitleleading}{25bp}
 \newcommand{\ahu@cnabstractheadingfontsize}{17.5bp}
@@ -96,6 +102,17 @@
 \newcommand{\ahu@coversupervisorwidth}{63.7mm}
 \newcommand{\ahu@coversupervisortitlelabelwidth}{28.2mm}
 \newcommand{\ahu@coverunitlabelwidth}{37.2mm}
+\newcommand{\ahu@coverhinttopskip}{8mm}
+\newcommand{\ahu@coverhintbottomskip}{10mm}
+\newcommand{\ahu@coverhintinnersep}{1em}
+\newcommand{\ahu@coverenrollyearwidth}{14mm}
+\newcommand{\ahu@coverenrollmonthwidth}{10mm}
+\newcommand{\ahu@covercompletionyearwidth}{56mm}
+\newcommand{\ahu@covercompletionmonthwidth}{36mm}
+\newcommand{\ahu@coverunitnocolwidth}{20mm}
+\newcommand{\ahu@coveroptionsep}{1em}
+\newcommand{\ahu@covercategorysep}{1.2em}
+\newcommand{\ahu@coverbottomtopskip}{15mm}
 
 % 目录、标题与摘要等部分的间距参数。
 \newcommand{\ahu@captiongap}{6bp}
@@ -267,6 +284,8 @@
 \newcommand{\ahuenglishfive}{\ahuroman\fontsize{\ahu@englishfivefontsize}{\ahu@englishfiveleading}\selectfont}
 \newcommand{\ahuenglishsmallfour}{\ahuroman\bfseries\fontsize{\ahu@englishsmallfourfontsize}{\ahu@englishsmallfourleading}\selectfont}
 \newcommand{\ahuenglishfour}{\ahuroman\bfseries\fontsize{\ahu@englishfourfontsize}{\ahu@englishfourleading}\selectfont}
+\newcommand{\ahucoverhintnotefont}{\ahusongti\fontsize{\ahu@coverhintnotefontsize}{\ahu@coverhintnoteleading}\selectfont}
+\newcommand{\ahucoverbottomfont}{\ahuheiti\bfseries\fontsize{\ahu@coverbottomfontsize}{\ahu@coverbottomleading}\selectfont}
 
 \AtBeginDocument{\ahubodyfont}
 \AtBeginDocument{\let\tableofcontents\ahu@tableofcontents}
@@ -313,6 +332,14 @@
 \newcommand{\completiondate}[1]{\gdef\ahu@completiondate{#1}}
 \newcommand{\keywordsCN}[1]{\gdef\ahu@keywordsCN{#1}}
 \newcommand{\keywordsEN}[1]{\gdef\ahu@keywordsEN{#1}}
+\newcommand{\titlecategory}[1]{\gdef\ahu@titlecategory{#1}}
+\newcommand{\trainingtype}[1]{\gdef\ahu@trainingtype{#1}}
+\newcommand{\enrollyear}[1]{\gdef\ahu@enrollyear{#1}}
+\newcommand{\enrollmonth}[1]{\gdef\ahu@enrollmonth{#1}}
+\newcommand{\completionyear}[1]{\gdef\ahu@completionyear{#1}}
+\newcommand{\completionmonth}[1]{\gdef\ahu@completionmonth{#1}}
+\newcommand{\externalsupervisor}[1]{\gdef\ahu@externalsupervisor{#1}}
+\newcommand{\externalsupervisorunit}[1]{\gdef\ahu@externalsupervisorunit{#1}}
 
 \thesistitlecn{基于XeLaTeX的安徽大学理工类本科毕业论文模板}
 \thesistitlecn2{}
@@ -328,6 +355,14 @@
 \completiondate{2026 年 6 月}
 \keywordsCN{论文模板；XeLaTeX；中文排版；本科毕业论文}
 \keywordsEN{thesis template; xelatex; chinese typesetting; undergraduate thesis}
+\titlecategory{论文}
+\trainingtype{主修}
+\enrollyear{2022}
+\enrollmonth{9}
+\completionyear{2026}
+\completionmonth{6}
+\externalsupervisor{}
+\externalsupervisorunit{}
 
 \newlength{\ahu@coverwidth}
 \setlength{\ahu@coverwidth}{\ahu@coverwidthvalue}
@@ -352,6 +387,11 @@
   }\par
 }
 
+% 复选框：当前值宏 #1 与目标字符串 #2 相等时输出实心方块，否则输出空心方块。
+\newcommand{\ahu@chkbox}[2]{%
+  \ifdefstring{#1}{#2}{{\ahuheiti ■}}{{\ahuheiti □}}%
+}
+
 \newcommand{\makecover}{%
   \clearpage
   \thispagestyle{empty}%
@@ -366,24 +406,61 @@
   \centering
   {\ahucoverfieldfont
     \begin{minipage}{\ahu@coverwidth}
+      % 题目（保留两行，便于容纳长标题）
       \ahu@coversinglefield{\ahu@covercommonlabelwidth}{题\hspace{\ahu@titleinnergap}目：}{\ahu@titlecnlineone}
       \vspace{\ahu@covertitlelinesep}
       \ahu@coversinglefield{\ahu@covercommonlabelwidth}{}{\ahu@titlecnlinetwo}
       \vspace{\ahu@covertitleblocksep}
+      % 题目类别
+      \noindent
+      \makebox[\ahu@coverwidth][l]{%
+        {\ahucoverlabelfont\makebox[\ahu@covercommonlabelwidth][l]{题目类别：}}%
+        \ahu@chkbox{\ahu@titlecategory}{论文}论文\hspace{\ahu@covercategorysep}%
+        \ahu@chkbox{\ahu@titlecategory}{设计}设计\hspace{\ahu@covercategorysep}%
+        \ahu@chkbox{\ahu@titlecategory}{创作}创作\hspace{\ahu@covercategorysep}%
+        \ahu@chkbox{\ahu@titlecategory}{调查报告}调查报告\hspace{\ahu@covercategorysep}%
+        \ahu@chkbox{\ahu@titlecategory}{其他}其他%
+      }\par
+      \vspace{\ahu@coverrowsep}
+      % 学生姓名 / 学号
       \ahu@coverdoublefield{\ahu@covercommonlabelwidth}{学生姓名：}{\ahu@coverstudentnamewidth}{\ahu@studentname}{\ahu@coverstudentidlabelwidth}{学号：}{\ahu@studentid}
       \vspace{\ahu@coverrowsep}
-      \ahu@coverdoublefield{\ahu@covercommonlabelwidth}{院（系）：}{\ahu@coverdepartmentwidth}{\ahu@department}{\ahu@covermajorlabelwidth}{专业：}{\ahu@major}
+      % 所在院系 / 专业
+      \ahu@coverdoublefield{\ahu@covercommonlabelwidth}{所在院系：}{\ahu@coverdepartmentwidth}{\ahu@department}{\ahu@covermajorlabelwidth}{专业：}{\ahu@major}
       \vspace{\ahu@coverrowsep}
-      \ahu@coversinglefield{\ahu@covercommonlabelwidth}{入学时间：}{\ahu@enrolldate}
+      % 入学时间 + 培养类型
+      \noindent
+      \makebox[\ahu@coverwidth][l]{%
+        {\ahucoverlabelfont\makebox[\ahu@covercommonlabelwidth][l]{入学时间：}}%
+        \ahu@coverrulebox{\ahu@coverenrollyearwidth}{\ahu@enrollyear}{\ahucoverlabelfont 年}%
+        \ahu@coverrulebox{\ahu@coverenrollmonthwidth}{\ahu@enrollmonth}{\ahucoverlabelfont 月}%
+        \hspace{\ahu@covercategorysep}%
+        {\ahucoverlabelfont 培养类型}\hspace{\ahu@covercategorysep}%
+        \ahu@chkbox{\ahu@trainingtype}{主修}主修\hspace{\ahu@covercategorysep}%
+        \ahu@chkbox{\ahu@trainingtype}{辅修}辅修%
+      }\par
       \vspace{\ahu@coverrowsep}
-      \ahu@coverdoublefield{\ahu@covercommonlabelwidth}{导师姓名：}{\ahu@coversupervisorwidth}{\ahu@supervisor}{\ahu@coversupervisortitlelabelwidth}{职称/学位：}{\ahu@supervisortitle}
+      % 导师姓名 / 所在单位
+      \ahu@coverdoublefield{\ahu@covercommonlabelwidth}{导师姓名：}{\ahu@coversupervisorwidth}{\ahu@supervisor}{\ahu@coverunitnocolwidth}{所在单位}{\ahu@supervisorunit}
       \vspace{\ahu@coverrowsep}
-      \ahu@coversinglefield{\ahu@coverunitlabelwidth}{导师所在单位：}{\ahu@supervisorunit}
+      % 校外导师 / 所在单位
+      \ahu@coverdoublefield{\ahu@covercommonlabelwidth}{校外导师：}{\ahu@coversupervisorwidth}{\ahu@externalsupervisor}{\ahu@coverunitnocolwidth}{所在单位}{\ahu@externalsupervisorunit}
       \vspace{\ahu@coverrowsep}
-      \ahu@coversinglefield{\ahu@covercommonlabelwidth}{完成时间：}{\ahu@completiondate}
+      % 完成时间
+      \noindent
+      \makebox[\ahu@coverwidth][l]{%
+        {\ahucoverlabelfont\makebox[\ahu@covercommonlabelwidth][l]{完成时间：}}%
+        \ahu@coverrulebox{\ahu@covercompletionyearwidth}{\ahu@completionyear}{\ahucoverlabelfont 年}%
+        \ahu@coverrulebox{\ahu@covercompletionmonthwidth}{\ahu@completionmonth}{\ahucoverlabelfont 月}%
+      }\par
     \end{minipage}\par
   }
   \endgroup
+  \vfill
+  \begin{center}
+    {\ahucoverbottomfont 安徽大学教务处\hspace{2\ccwd}制\par}
+  \end{center}
+  \vspace*{\ahu@coverbottomtopskip}
   \clearpage
 }
 
